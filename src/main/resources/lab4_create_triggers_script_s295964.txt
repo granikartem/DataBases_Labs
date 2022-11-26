@@ -1,0 +1,8 @@
+CREATE TRIGGER EMPLOYMENT_PROCESS
+AFTER INSERT ON s295964.EmploymentHistory 
+FOR EACH ROW
+BEGIN 
+UPDATE 
+SET s295964.Division.size_of_division=s295964.Division.size+1
+WHERE s295964.EmploymentHistory.division_id = s295964.Division.division_id
+END;

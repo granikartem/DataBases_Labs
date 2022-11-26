@@ -1,0 +1,19 @@
+CREATE TABLE s307353.Employee(employee_id serial PRIMARY KEY,name VARCHAR(30) NOT NULL,surname VARCHAR(30) NOT NULL, education VARCHAR(30) NOT NULL,position VARCHAR(60) NOT NULL);
+CREATE TABLE s307353.Division(division_id serial PRIMARY KEY, name VARCHAR(15) NOT NULL, head_of_division INT NOT NULL references s307353.Employee, size_of_division INT);
+CREATE TABLE s307353.Facility(facility_id serial PRIMARY KEY,division_id serial references s307353.Division(division_id), name VARCHAR(45) NOT NULL, address VARCHAR(45) NOT NULL);
+CREATE TABLE s307353.Experiment(experiment_id serial PRIMARY KEY, division_id SERIAL references s307353.Division(division_id),name VARCHAR(150) NOT NULL, description TEXT NOT NULL);
+CREATE TABLE s307353.Equipment(equipment_id serial PRIMARY KEY, name VARCHAR(60) NOT NULL, description TEXT NOT NULL, developed_by serial references s307353.Division(division_id));
+CREATE TABLE s307353.Production(equipment_id serial references s307353.Equipment(equipment_id),facility_id serial references s307353.Facility(facility_id));
+CREATE TABLE s307353.EmploymentHistory(employee_id serial references s307353.Employee(employee_id),division_id serial references s307353.Division(division_id), facility_id serial references s307353.Facility(facility_id),start_date DATE NOT NULL, status VARCHAR(15) NOT NULL CHECK(status='fired' OR status='hired'));
+CREATE TABLE s307353.Mission(mission_id serial PRIMARY KEY, name VARCHAR(70) NOT NULL,goal TEXT NOT NULL,status VARCHAR(35) CHECK (status='LAUNCH PHASE' OR status= 'CRUISE PHASE' OR status= 'ENCOUTER PHASE' OR status= 'EXTENDED OPERATIONS PHASE'),description TEXT NOT NULL);
+CREATE TABLE s307353.Spacecraft(spacecraft_id serial PRIMARY KEY,facility_id INT NOT NULL references s307353.Facility(facility_id),name VARCHAR(30) NOT NULL, class VARCHAR(30) NOT NULL, description TEXT NOT NULL);
+CREATE TABLE s307353.AssemblingRoom(spacecraft_id INT NOT NULL references s307353.Spacecraft(spacecraft_id), equipment_id INT NOT NULL references s307353.Equipment(equipment_id));
+CREATE TABLE s307353.Orbit(orbit_id serial PRIMARY KEY, name VARCHAR(30) NOT NULL, planet VARCHAR(15) NOT NULL,characteristics TEXT NOT NULL);
+CREATE TABLE s307353.Rocket(rocket_id serial PRIMARY KEY, name VARCHAR(30) NOT NULL, family VARCHAR(60) NOT NULL CHECK(family='Small-lift launch vehicle' OR family='Medium-lift launch vehicle' OR family='Heavy-lift launch vehicle' OR family='Super-heavy lift vehicle'),capacity_kilos INT NOT NULL, manufacturer VARCHAR(50) NOT NULL);
+CREATE TABLE s307353.LaunchPad(launch_pad_id serial PRIMARY KEY, name VARCHAR(30) NOT NULL, location VARCHAR(50) NOT NULL);
+CREATE TABLE s307353.Launch(launch_id serial PRIMARY KEY,launch_pad_id INT NOT NULL references s307353.LaunchPad(launch_pad_id),mission_id INT NOT NULL references s307353.Mission(mission_id),date DATE NOT NULL,weather_conditions VARCHAR(50) NOT  NULL);
+CREATE FUNCTION hasOrbit(id integer) RETURNS boolean AS $$
+    SELECT class = 'satellite' FROM Spacecraft WHERE spacecraft_id = hasOrbit.id;
+$$ LANGUAGE SQL;
+CREATE TABLE s307353.IntendedExperiments(experiment_id INT NOT NULL references s307353.Experiment, mission_id INT NOT NULL references s307353.Mission, equipment_id INT NOT NULL references s307353.Equipment, orbit_id INT references s307353.Orbit);
+CREATE TABLE s307353.MissionCharacteristics(mission_id INT NOT NULL references s307353.Mission, spacecraft_id INT NOT NULL references s307353.Spacecraft, rocket_id INT NOT NULL references s307353.Rocket, orbit_id INT references s307353.Orbit CONSTRAINT Has_Orbit CHECK(hasOrbit(spacecraft_ID) AND Orbit_ID IS NOT NULL OR NOT hasOrbit(spacecraft_ID) AND Orbit_ID IS NULL));

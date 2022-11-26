@@ -1,0 +1,5 @@
+CREATE FUNCTION hasOrbit(integer id) RETURNS boolean AS $$
+	SELECT class = 'satellite' FROM Spacecraft WHERE spacecraft_id = hasOrbit.id AS spacecraft_class;
+$$ LANGUAGE SQL;
+
+CONSTRAINT Has_Orbit CHECK(hasorbit(Spacecraft_ID) AND Orbit_ID IS NOT NULL OR NOT hasorbit(Spacecraft_ID) AND Orbit_ID IS NULL)
