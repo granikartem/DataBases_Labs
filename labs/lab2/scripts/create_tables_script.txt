@@ -1,0 +1,10 @@
+CREATE TABLE s295964.Planets(Planet_ID serial PRIMARY KEY, Name varchar(20) NOT NULL, Planetary_System varchar(64) NOT NULL, Distance_to_Earth integer CHECK (Distance_to_Earth>0));
+CREATE TABLE s295964.Spaceships(Spaceship_ID serial PRIMARY KEY, Name varchar(20) NOT NULL);
+CREATE TABLE s295964.Expeditions(Planet_ID integer REFERENCES s295964.Planets NOT NULL, Spaceship_ID integer REFERENCES s295964.Spaceships NOT NULL, Status text, PRIMARY KEY(Planet_ID, Spaceship_ID));
+CREATE TABLE s295964.People(Person_ID serial PRIMARY KEY, Name varchar(20) NOT NULL, Surname varchar(20) NOT NULL, Birth_Date date NOT NULL);
+CREATE TABLE s295964.Crews(Spaceship_ID integer REFERENCES s295964.Spaceships NOT NULL, Person_ID integer REFERENCES s295964.People NOT NULL, Role varchar(20) NOT NULL, PRIMARY KEY(Spaceship_ID, Person_ID));
+CREATE TABLE s295964.Robots(Robot_ID serial PRIMARY KEY, Spaceship_ID integer REFERENCES s295964.Spaceships NOT NULL, Name varchar(20) NOT NULL);
+CREATE TABLE s295964.Structures(Structure_ID serial PRIMARY KEY, Planet_ID integer REFERENCES s295964.Planets NOT NULL, Name varchar(64) NOT NULL);
+CREATE TABLE s295964.Routes(Route_ID serial PRIMARY KEY, Robot_ID integer REFERENCES s295964.Robots NOT NULL, Description text NOT NULL, Length integer CHECK(Length > 0));
+CREATE TABLE s295964.Route_Structure_Coverage(Route_ID integer REFERENCES s295964.Routes NOT NULL, Structure_ID integer REFERENCES s295964.Structures NOT NULL, Number_on_route integer CHECK (Number_on_route > 0), PRIMARY KEY(Route_ID, Structure_ID));
+CREATE TABLE s295964.Places_of_Interest(PoI_ID serial PRIMARY KEY, Route_ID integer REFERENCES s295964.Routes NOT NULL, Name varchar(64) NOT NULL, Description text NOT NULL);

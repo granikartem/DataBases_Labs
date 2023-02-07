@@ -1,0 +1,10 @@
+DROP TABLE s295964.Places_of_Interest;
+DROP TABLE s295964.Route_Structure_Coverage;
+DROP TABLE s295964.Routes;
+DROP TABLE s295964.Structures;
+DROP TABLE s295964.Robots;
+DROP TABLE s295964.Crews;
+DROP TABLE s295964.Expeditions;
+DROP TABLE s295964.Planets;
+DROP TABLE s295964.Spaceships;
+DROP TABLE s295964.People;

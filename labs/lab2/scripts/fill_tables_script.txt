@@ -1,0 +1,10 @@
+INSERT INTO s295964.Spaceships(Name) VALUES('Apollo'), ('Soyuz'), ('Vostok'), ('Gemini'), ('Buran');
+INSERT INTO s295964.Planets(Name, Planetary_System, Distance_to_Earth) Values ('Moon','Solar System', 100), ('Mars', 'Solar System', 1000), ('Jupiter', 'Solar System', 5000), ('Vulcan', 'Vulcan System', 10000000);
+INSERT INTO s295964.Expeditions(Planet_ID, Spaceship_ID,Status) VALUES(1, 1, 'Active'), (2,2,'Active'), (4,5, 'Abandoned');
+INSERT INTO s295964.People(Name, Surname, Birth_Date) VALUES ('Louis', 'Armstrong', 'January 11, 2017'), ('Ivan', 'Ivanov', 'June 21, 2021'), ('Peter', 'Petrov', 'March 30, 2019'), ('Yuriy', 'Gagarin', 'July 16, 2005');
+INSERT INTO s295964.Crews(Spaceship_ID, Person_ID, Role) VALUES(1,1,'captain'), (3, 4, 'chief engineer'), (2, 2, 'doctor'), (3, 3, 'scientist');
+INSERT INTO s295964.Robots(Spaceship_ID, Name) VALUES(1, 'Bender'), (2, 'Terminator'), (3, 'WALL-E'), (4, 'Eva'), (5, 'Fedor');
+INSERT INTO s295964.Structures(Planet_ID, Name) VALUES(1,'German Moon Base'), (2, 'Martian Military Base'), (1, 'Copernicus Lunar crater');
+INSERT INTO s295964.Routes(Robot_ID, Description, Length) VALUES(1, 'Goes around the German base and towards the Copernicus crater', 312), (2, 'Explores the surface of the planet', 511);
+INSERT INTO s295964.Route_Structure_Coverage(Route_ID, Structure_ID, Number_on_route) VALUES(1, 1, 1), (1,3,2);
+INSERT INTO s295964.Places_of_Interest(Route_ID, Name, Description) VALUES(1, 'Tiger tank', 'Germans brought the tank to the Moon!'),(2, 'Alive Martian', 'Seems to be friendly');

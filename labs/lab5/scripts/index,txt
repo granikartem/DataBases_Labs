@@ -1,0 +1,5 @@
+create index employee_name on s295964.Employee(name, surname);
+create index hired_in_division on s295964.EmploymentHistory(division_id, status) where status = 'hired';
+create index mission_in_characteristics on s295964.MissionCharacteristics(mission_id);
+create index mission_in_experiments on s295964.IntendedExperiments(mission_id);
+create index equipment_readiness on s295964.Production(equipment_id, status) where status = 'true';
